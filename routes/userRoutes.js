@@ -1,14 +1,18 @@
-const bcrypt = require('bcryptjs');
+require('dotenv').config()
 const { Router } = require('express');
+const bcrypt = require('bcryptjs');
+const jwt= require('jsonwebtoken')
+
 const router = Router();
 const UserModels = require('./../models/userModels');
 const middleware= require('./../middleware/verifyBody')
 
-router.post('/register',   middleware.checkIfUserExist() ,async(req, res, next) => {
+router.post('/register',   middleware.checkIfUserExist() ,async(req, res, next) => {  
+   
     try {
         const {full_name, email, password } = req.body;
         if(!full_name, !email, !password ){
-            res.status(400).json({
+            return res.status(400).json({
                 error: 'Please Provide full_name, email and password to register',
                 full_name,
                 email,
@@ -16,19 +20,68 @@ router.post('/register',   middleware.checkIfUserExist() ,async(req, res, next) 
             })
         }else{
             const user = await UserModels.addUser({full_name, email, password });
-            res.status(201).json({
+            return res.status(201).json({
                 message: 'Successfully created a new user',
-                user,
+                user:{
+                    id: user.id,
+                    full_name: user.full_name,
+                },
             })
+        }
+    } catch (error) {
+        console.log('hello')
+
+       return res.status(400).status({
+            errMsg: 'Server Error',
+            error
+        });
+    }
+   
+});
+
+router.post('/login', async (req, res, next) => {
+    try {
+        const {full_name, email, password } = req.body;
+        if( !email, !password ){
+            res.status(400).json({
+                error: 'Please Provide email and password to register',
+                email,
+                password
+            })
+        }else{
+            const user = await UserModels.fetchUserBy(email)
+            const validatePassword = bcrypt.compareSync(password, user.password);
+            if(!validatePassword || !user){
+                res.status(404).json({
+                    message: 'Invalid Credentials'
+                })
+            }else{
+                const token = signToken({
+                    userId: user.id,
+                    full_name,
+                    email
+                });
+                res.status(200).json({
+                    message: "Login successful",
+                    token
+                })
+            }
         }
     } catch (error) {
         res.status(500).status({
             errMsg: 'Server Error',
             error
-        })
+        });
     }
-   
 });
 
+function signToken(user) {
+    const secret = process.env.JWT_SECRETE;
+    const options = {
+      expiresIn: "2hr"
+    };
+  
+    return jwt.sign(user, secret, options);
+  }
 module.exports = router;
 
