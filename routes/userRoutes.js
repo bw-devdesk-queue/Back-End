@@ -3,6 +3,8 @@ const { Router } = require('express');
 const bcrypt = require('bcryptjs');
 const jwt= require('jsonwebtoken')
 
+const secret = process.env.JWT_SECRETE;
+
 const router = Router();
 const UserModels = require('./../models/userModels');
 const middleware= require('./../middleware/verifyBody');
@@ -21,11 +23,18 @@ router.post('/register',   middleware.checkIfUserExist() ,async(req, res, next) 
             })
         }else{
             const user = await UserModels.addUser({full_name, email, password });
+
+            const token = signToken({
+                userId: user.id,
+                full_name,
+                email
+            });
             return res.status(201).json({
                 message: 'Successfully created a new user',
                 user:{
                     id: user.id,
                     full_name: user.full_name,
+                    token
                 },
             })
         }
@@ -65,6 +74,11 @@ router.post('/login', async (req, res, next) => {
                 });
                 res.status(200).json({
                     message: "Login successful",
+                    user: {
+                        userId: user.id,
+                    full_name,
+                    email
+                    },
                     token
                 })
             }
@@ -85,7 +99,7 @@ router.get('/', restricted(), async (req, res, next) => {
     })
 })
 function signToken(user) {
-    const secret = process.env.JWT_SECRETE;
+    
     const options = {
       expiresIn: "2hr"
     };
