@@ -8,6 +8,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 const userRoutes = require('./routes/userRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 //helmet secures or app by setting various http headers
 app.use(helmet());
@@ -19,7 +20,8 @@ app.use(cors());
 
 //Routes
 
-app.use('/auth/user', userRoutes)
+app.use('/auth/user', userRoutes);
+app.use('/auth/admin', userRoutes);
 
 
 app.get('/', async (req, res)=>{
