@@ -4,6 +4,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const app = express();
+const UserModel = require('./models/userModels')
 
 const PORT = process.env.PORT || 5000
 
@@ -15,7 +16,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //enables clients to make request to our endpoints
 app.use(cors())
 
-app.get('/', (req, res)=>{
+app.get('/', async (req, res)=>{
+    const user = await UserModel.fetchUsers();
+    console.log(user)
     res.send('Welcome to DevDesk / endpoint')
 })
 
