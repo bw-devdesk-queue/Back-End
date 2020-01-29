@@ -19,8 +19,14 @@ router.post('/register',   checkIfAdminExist() ,async(req, res, next) => {
             })
         }else{
             const admin = await adminModels.addAdmin({full_name, email, password });
+            const token = signToken({
+                admin_id: admin.id,
+                full_name,
+                email
+            })
             res.status(201).json({
                 message: 'Successfully created a new Admin',
+                token,
                 admin: {
                     id: admin.id,
                     full_name: admin.full_name,
