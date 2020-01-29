@@ -22,7 +22,7 @@ router.post('/register',   middleware.checkIfAdminExist() ,async(req, res, next)
             })
         }
     } catch (error) {
-        res.status(500).status({
+        res.status(500).json({
             errMsg: 'Server Error',
             error
         })

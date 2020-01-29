@@ -31,7 +31,7 @@ router.post('/register',   middleware.checkIfUserExist() ,async(req, res, next) 
     } catch (error) {
         console.log('hello')
 
-       return res.status(400).status({
+       return res.status(400).json({
             errMsg: 'Server Error',
             error
         });
@@ -68,7 +68,7 @@ router.post('/login', async (req, res, next) => {
             }
         }
     } catch (error) {
-        res.status(500).status({
+        res.status(500).json({
             errMsg: 'Server Error',
             error
         });
