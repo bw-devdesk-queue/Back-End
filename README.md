@@ -80,7 +80,7 @@ https://devdeskbe.herokuapp.com
     "message": "Successfully created a new Admin",
     "user": {
         "id": 3,
-        "full_name": "John"
+        "full_name": "admin"
         }
     }
 ```
