@@ -21,7 +21,7 @@ app.use(cors());
 //Routes
 
 app.use('/auth/user', userRoutes);
-app.use('/auth/admin', userRoutes);
+app.use('/auth/admin', adminRoutes);
 
 
 app.get('/', async (req, res)=>{
