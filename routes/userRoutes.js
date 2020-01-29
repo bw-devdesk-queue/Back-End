@@ -5,7 +5,8 @@ const jwt= require('jsonwebtoken')
 
 const router = Router();
 const UserModels = require('./../models/userModels');
-const middleware= require('./../middleware/verifyBody')
+const middleware= require('./../middleware/verifyBody');
+const restricted = require('./../middleware/restricted');
 
 router.post('/register',   middleware.checkIfUserExist() ,async(req, res, next) => {  
    
@@ -42,6 +43,7 @@ router.post('/register',   middleware.checkIfUserExist() ,async(req, res, next) 
 router.post('/login', async (req, res, next) => {
     try {
         const {full_name, email, password } = req.body;
+        
         if( !email, !password ){
             res.status(400).json({
                 error: 'Please Provide email and password to register',
@@ -75,6 +77,13 @@ router.post('/login', async (req, res, next) => {
     }
 });
 
+router.get('/', restricted(), async (req, res, next) => {
+    const users = await UserModels.fetchUsers();
+    res.status(200).json({
+        message: "users",
+        users
+    })
+})
 function signToken(user) {
     const secret = process.env.JWT_SECRETE;
     const options = {
