@@ -5,7 +5,7 @@ function fetchTickets() {
 }
 
 async function fetchTicketsByUser(id) {
-    
+
   const user = await db("user").where("id", id).first();
   const tickets = await db("tickets").where("user_id", id);
 
@@ -17,7 +17,13 @@ async function fetchTicketsByUser(id) {
   };
 }
 
+async function addTicket(ticket) {
+    const t = await db('tickets').insert(ticket);
+    console.log(t)
+    return db('tickets').where('title', ticket.title).first();
+}
 module.exports = {
   fetchTickets,
-  fetchTicketsByUser
+  fetchTicketsByUser,
+  addTicket
 };
