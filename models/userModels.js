@@ -15,9 +15,13 @@ async function addUser(user){
 function fetchUserBy(email){
     return db('user').where(`email`, email).first();
 }
+function fetchUserById(id){
+    return db('user').where(`id`, id).first();
+}
 
 module.exports = {
     fetchUsers,
     addUser,
-    fetchUserBy
+    fetchUserBy,
+    fetchUserById
 }
