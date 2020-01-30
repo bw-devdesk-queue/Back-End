@@ -13,20 +13,22 @@ const restricted = require('./../middleware/restricted');
 router.post('/register',   middleware.checkIfUserExist() ,async(req, res, next) => {  
    
     try {
-        const {full_name, email, password } = req.body;
-        if(!full_name, !email, !password ){
+        const {full_name, email, password, role } = req.body;
+        if(!full_name, !email, !password, !role){
             return res.status(400).json({
                 error: 'Please Provide full_name, email and password to register',
                 full_name,
                 email,
+                role,
                 password
             })
         }else{
-            const user = await UserModels.addUser({full_name, email, password });
+            const user = await UserModels.addUser({full_name, email, password, role});
 
             const token = signToken({
                 userId: user.id,
                 full_name,
+
                 email
             });
             return res.status(201).json({
@@ -39,8 +41,7 @@ router.post('/register',   middleware.checkIfUserExist() ,async(req, res, next) 
             })
         }
     } catch (error) {
-        console.log('hello')
-
+        
        return res.status(400).json({
             errMsg: 'Server Error',
             error
@@ -49,7 +50,7 @@ router.post('/register',   middleware.checkIfUserExist() ,async(req, res, next) 
    
 });
 
-router.post('/login', async (req, res, next) => {
+router.post('/login',  middleware.checkIfUserExist(),async (req, res, next) => {
     try {
         const {full_name, email, password } = req.body;
         
