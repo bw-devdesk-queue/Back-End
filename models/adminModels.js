@@ -8,12 +8,12 @@ function fetchAdmins(){
 async function addAdmin(admin){
     const hash = bcrypt.hashSync(admin.password, 12);
     admin.password = hash;
-    await db('Admin').insert(admin);
+    await db('admin').insert(admin);
     return fetchAdminBy(admin.email);
 }
 
 function fetchAdminBy(email){
-    return db('Admin').where(`email`, email).first();
+    return db('admin').where(`email`, email).first();
 }
 
 module.exports = {

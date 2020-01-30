@@ -1,32 +1,48 @@
-const userModels = require('./../models/userModels');
-const adminModels = require('./../models/adminModels');
-const  checkIfUserExist = () => {
-    return async (req, res, next) =>{
-        const user = await userModels.fetchUserBy(req.body.email)
-        if(!user){
-            next()
-        }else{
-           return res.status(403).json({
-                message: `user with email of ${req.body.email} exist already in the db, try a new email`
-            })
-        }
-    }
-}
-const  checkIfAdminExist = () => {
-    return async (req, res, next) =>{
-        const admin = await adminModels.fetchAdminBy(req.body.email)
-        if(!admin){
-            next()
-        }else{
-           return res.status(403).json({
-                message: `Admin with email of ${req.body.email} exist already in the db, try a new email`,
-                admin
+const userModels = require("./../models/userModels");
+const adminModels = require("./../models/adminModels");
 
-            })
-        }
+const checkIfUserExist = () => {
+  return async (req, res, next) => {
+    const user = await userModels.fetchUserBy(req.body.email);
+    if (!user) {
+      next();
+    } else {
+      return res.status(403).json({
+        message: `user with email of ${req.body.email} exist already in the db, try a new email`
+      });
     }
-}
+  };
+};
+
+
+
+const checkIfAdminExist = () => {
+  return async (req, res, next) => {
+    
+    try {
+        const { email } = req.body;
+        const admin = await adminModels.fetchAdminBy(email);
+      if (!admin) {
+        next();
+      } else {
+        return res.status(403).json({
+          message: `Admin with email of ${email} exist already in the db, try a new email`,
+          admin: {
+            id: admin.id,
+            full_name: admin.full_name,
+            email
+          }
+        });
+      }
+    } catch (error) {
+        return res.status(500).json({
+            message: `Server error`,
+            error
+          });
+    }
+  };
+};
 module.exports = {
-    checkIfUserExist,
-    checkIfAdminExist
-}
+  checkIfUserExist,
+  checkIfAdminExist
+};
