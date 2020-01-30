@@ -41,7 +41,7 @@ router.post('/register',   middleware.checkIfUserExist() ,async(req, res, next) 
             })
         }
     } catch (error) {
-        
+
        return res.status(400).json({
             errMsg: 'Server Error',
             error
@@ -50,7 +50,12 @@ router.post('/register',   middleware.checkIfUserExist() ,async(req, res, next) 
    
 });
 
-router.post('/login',  middleware.checkIfUserExist(),async (req, res, next) => {
+router.post('/login', async (req, res, next) => {
+    if (Object.keys(req.body).length <= 0) {
+        return res.status(404).json({
+          message: "Please fill out the form to login"
+        });
+      }
     try {
         const {full_name, email, password } = req.body;
         
@@ -78,7 +83,8 @@ router.post('/login',  middleware.checkIfUserExist(),async (req, res, next) => {
                     user: {
                         userId: user.id,
                         full_name,
-                        email
+                        email,
+                        role: user.role
                     },
                     token
                 })
@@ -107,5 +113,7 @@ function signToken(user) {
   
     return jwt.sign(user, secret, options);
   }
+
+
 module.exports = router;
 

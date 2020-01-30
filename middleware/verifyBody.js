@@ -3,26 +3,33 @@ const adminModels = require("./../models/adminModels");
 
 const checkIfUserExist = () => {
   return async (req, res, next) => {
-    const user = await userModels.fetchUserBy(req.body.email);
-    if (!user) {
-      next();
-    } else {
-      return res.status(403).json({
-        message: `user with email of ${req.body.email} exist already in the db, try a new email`
+    if (Object.keys(req.body).length <= 0) {
+      return res.status(404).json({
+        message: "Please fill out the form to login"
       });
+    } else {
+      const user = await userModels.fetchUserBy(req.body.email);
+      if (!user) {
+        next();
+      } else {
+        return res.status(403).json({
+          message: `user with email of ${req.body.email} exist already in the db, try a new email`
+        });
+      }
     }
   };
 };
 
-
-
-
 const checkIfAdminExist = () => {
   return async (req, res, next) => {
-    
+    if (Object.keys(req.body).length <= 0) {
+      return res.status(404).json({
+        message: "Please fill out the form to login"
+      });
+    }
     try {
-        const { email } = req.body;
-        const admin = await adminModels.fetchAdminBy(email);
+      const { email } = req.body;
+      const admin = await adminModels.fetchAdminBy(email);
       if (!admin) {
         next();
       } else {
@@ -36,10 +43,10 @@ const checkIfAdminExist = () => {
         });
       }
     } catch (error) {
-        return res.status(500).json({
-            message: `Server error`,
-            error
-          });
+      return res.status(500).json({
+        message: `Server error`,
+        error
+      });
     }
   };
 };
