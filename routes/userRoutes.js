@@ -6,6 +6,11 @@ const jwt= require('jsonwebtoken')
 const secret = process.env.JWT_SECRETE;
 
 const router = Router();
+
+const ticketRoutes = require('./ticketRoutes');
+
+router.use('/', ticketRoutes)
+
 const UserModels = require('./../models/userModels');
 const middleware= require('./../middleware/verifyBody');
 const restricted = require('./../middleware/restricted');

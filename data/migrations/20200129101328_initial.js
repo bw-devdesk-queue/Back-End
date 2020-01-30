@@ -16,7 +16,7 @@ exports.up = async function(knex) {
     });
 
     await knex.schema.createTable('tickets', tbl => {
-      tbl.increments();
+      tbl.increments('ticket_id');
       tbl.string('title').notNullable();
       tbl.string('description');
       tbl.string('attempted_solution') 
