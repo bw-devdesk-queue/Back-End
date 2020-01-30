@@ -10,16 +10,17 @@ const JWT_SECRETE =  process.env.JWT_SECRETE;
 
 router.post('/register',   checkIfAdminExist() ,async(req, res, next) => {
     try {
-        const {full_name, email, password } = req.body;
+        const {full_name, email, password, role} = req.body;
         if(!full_name, !email, !password ){
             res.status(400).json({
                 error: 'Please Provide full_name, email and password to register',
                 full_name,
                 email,
-                password
+                password,
+                role
             })
         }else{
-            const admin = await adminModels.addAdmin({full_name, email, password });
+            const admin = await adminModels.addAdmin({full_name, email, password, role });
             const token = signToken({
                 admin_id: admin.id,
                 full_name,
@@ -31,13 +32,13 @@ router.post('/register',   checkIfAdminExist() ,async(req, res, next) => {
                 admin: {
                     id: admin.id,
                     full_name: admin.full_name,
-                    email
+                    email,
+                    role
                   }
             })
         }
     } catch (error) {
-        console.log(error)
-        res.status(500).json({
+       return  res.status(500).json({
             errMsg: 'Server Error',
             error
         })
@@ -46,7 +47,14 @@ router.post('/register',   checkIfAdminExist() ,async(req, res, next) => {
 });
 
 
-router.post('/login', checkIfAdminExist(),  async (req, res, next) => {
+router.post('/login',  async (req, res, next) => {
+    //check to see if there is any elements in the object body
+    if (Object.keys(req.body).length <= 0) {
+        return res.status(404).json({
+          message: "Please fill out the form to login"
+        });
+      }
+
     const {full_name, email, password } = req.body;
     try {
         if(!email || !password ) {
@@ -79,7 +87,6 @@ router.post('/login', checkIfAdminExist(),  async (req, res, next) => {
             }
         }
     } catch (error) {
-        console.log('+++++++', error)
         res.status(500).json({
             message: 'Server Error',
             error
@@ -91,14 +98,14 @@ router.post('/login', checkIfAdminExist(),  async (req, res, next) => {
 router.get('/', restricted(), async (req, res, next) => {
     const admin = await adminModels.fetchAdmins();
     res.status(200).json({
-        message: "users",
+        message: "Admin",
         admin
     })
 })
 function signToken(user) {
     
     const options = {
-      expiresIn: "2hr"
+      expiresIn: "3d"
     };
   
     return jwt.sign(user, JWT_SECRETE, options);
