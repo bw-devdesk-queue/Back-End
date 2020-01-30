@@ -4,6 +4,7 @@ const { Router } = require('express');
 const router = Router();
 const adminModels = require('./../models/adminModels');
 const { checkIfAdminExist  } = require('./../middleware/verifyBody')
+const restricted = require('./../middleware/restricted')
 const JWT_SECRETE =  process.env.JWT_SECRETE;
 
 
@@ -45,7 +46,7 @@ router.post('/register',   checkIfAdminExist() ,async(req, res, next) => {
 });
 
 
-router.post('/login', async (req, res, next) => {
+router.post('/login', checkIfAdminExist(),  async (req, res, next) => {
     const {full_name, email, password } = req.body;
     try {
         if(!email || !password ) {
@@ -87,6 +88,13 @@ router.post('/login', async (req, res, next) => {
    
 });
 
+router.get('/', restricted(), async (req, res, next) => {
+    const admin = await adminModels.fetchAdmins();
+    res.status(200).json({
+        message: "users",
+        admin
+    })
+})
 function signToken(user) {
     
     const options = {

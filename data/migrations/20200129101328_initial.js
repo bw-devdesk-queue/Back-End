@@ -3,13 +3,15 @@ exports.up = async function(knex) {
        tbl.increments();
        tbl.string('full_name').notNullable();
        tbl.string('email').notNullable().unique();
+       tbl.string('role').notNullable();
        tbl.string('password').notNullable();
-    })
-    await knex.schema.createTable('admin', tbl => {
+      })
+      await knex.schema.createTable('admin', tbl => {
         tbl.increments();
         tbl.string('full_name').notNullable();
         tbl.string('email').notNullable().unique();
         tbl.string('password').notNullable()
+        tbl.string('role').notNullable();
     })
   };
   
