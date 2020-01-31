@@ -13,7 +13,6 @@ module.exports = function (){
                 err
               });
             } else {
-                console.log(decoded)
               next();
             }
           });
