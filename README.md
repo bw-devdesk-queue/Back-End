@@ -84,13 +84,15 @@ https://devdeskbe.herokuapp.com
 ```
 ### Admin Return Object
 ```js
-    {
-    "message": "Successfully created a new Admin",
-    "user": {
-        "id": 3,
-        "full_name": "John"
-        }
+     {
+    "message": "login successful",
+    "token": "token",
+    "admin": {
+        "id": 4,
+        "full_name": "Admin Doe",
+        "email": "admmin@doe.com"
     }
+}
 ```
 
 ### Tickets 
