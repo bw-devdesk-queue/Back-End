@@ -25,6 +25,7 @@ https://devdeskbe.herokuapp.com
 | Admin | -- | -- |
 | POST | /auth/admin/register |Adds user creds to DB. Returns id, full_name, email of user, and JWT |
 | POST | /auth/admin/login | Allows Admin access. Returns the user info, success message, and JWT |
+| GET | /auth/admin | Returns all the users in the db|
 
 
 # Schema
