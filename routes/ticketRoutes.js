@@ -13,11 +13,18 @@ const route = Router({
 });
 
 // fetch all tickets
-route.get("/", async (req, res, next) => {
-  const tickets = await fetchTickets();
-  res.status(200).json({
-    tickets
-  });
+route.get("/tickets", restricted(), async (req, res, next) => {
+  try {
+    const tickets = await fetchTickets();
+    res.status(200).json({
+      tickets
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: 'Server Error',
+      error
+    })
+  }
 });
 
 route.get("/:user_id/tickets",  async (req, res, next) => {
