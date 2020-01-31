@@ -17,13 +17,13 @@ https://devdeskbe.herokuapp.com
 | Users | -- | -- |
 | POST | /auth/user/register |Adds user creds to DB. Returns id, full_name, email of user, and JWT |
 | POST | /auth/user/login | Allows user access. Returns the user info, success message, and JWT |
-
 | GET | /user/ | Returns all the users in the db|
 
-| -- | -- | -- |
+
 
 | Admin | -- | -- |
-
+| Method | URL | Description |
+| -- | -- | -- |
 | POST | /auth/admin/register |Adds user creds to DB. Returns id, full_name, email of user, and JWT |
 | POST | /auth/admin/login | Allows Admin access. Returns the user info, success message, and JWT |
 
@@ -84,3 +84,5 @@ https://devdeskbe.herokuapp.com
         }
     }
 ```
+
+### Tickets 
