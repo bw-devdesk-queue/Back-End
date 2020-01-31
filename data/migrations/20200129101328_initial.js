@@ -22,12 +22,19 @@ exports.up = async function(knex) {
       tbl.string('attempted_solution') 
       tbl.timestamp('created_at', {precision: 6}).defaultTo(knex.fn.now());
       tbl.boolean('completed')
-      tbl.integer('user_id').unsigned().notNullable().references('id').inTable('user').onDelete('CASCADE').onUpdate('CASCADE')
+      tbl
+      .integer("user_id")
+      .unsigned()
+      .notNullable()
+      .references("id")
+      .inTable("user")
+      .onDelete("CASCADE")
+      .onUpdate("CASCADE");
     })
   };
   
   exports.down = async function(knex) {
     await knex.schema.dropTableIfExists('tickets');
-    await knex.schema.dropTableIfExists('admin');
+    await knex.schema.dropTableIfExists('admin')
     await knex.schema.dropTableIfExists('user');
   };

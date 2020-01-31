@@ -19,7 +19,6 @@ async function fetchTicketsByUser(id) {
 
 async function addTicket(ticket) {
     const t = await db('tickets').insert(ticket);
-    console.log(t)
     return db('tickets').where('title', ticket.title).first();
 }
 module.exports = {
