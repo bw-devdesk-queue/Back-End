@@ -21,8 +21,8 @@ https://devdeskbe.herokuapp.com
 
 
 | Method | URL | Description |
-| Admin | -- | -- |
 | -- | -- | -- |
+| Admin | -- | -- |
 | POST | /auth/admin/register |Adds user creds to DB. Returns id, full_name, email of user, and JWT |
 | POST | /auth/admin/login | Allows Admin access. Returns the user info, success message, and JWT |
 
