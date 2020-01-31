@@ -33,6 +33,7 @@ app.get('/', async (req, res)=>{
 app.get((err,req, res, next)=>{
     res.status(404).json({
             message: 'Server Error',
+            err
     })
 })
 app.listen(PORT, console.log(`app listening to http://localhost:${PORT}`))
