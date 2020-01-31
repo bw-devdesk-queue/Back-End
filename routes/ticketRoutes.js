@@ -71,7 +71,7 @@ route.post('/:user_id/tickets' , async(req, res, next) => {
             return res.status(400).json({
                 message: 'Title and description are requires to add a new ticket'
             })
-        }else if (user){
+        }else if (!user){
             return res.status(404).json({
                 message: `User at the  {id: ${user_id}} doesn't exist in the db`
               });
