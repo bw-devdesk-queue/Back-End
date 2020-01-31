@@ -1,4 +1,4 @@
-const {DATABASE_URL} =  require('./configVars')
+const { DATABASE_URL } =  require('./configVars')
 module.exports = {
   development: {
     client: 'pg',
