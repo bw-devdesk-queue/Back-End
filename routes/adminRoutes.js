@@ -11,8 +11,9 @@ const JWT_SECRETE =  process.env.JWT_SECRETE;
 router.post('/register',   checkIfAdminExist() ,async(req, res, next) => {
     try {
         const {full_name, email, password, role} = req.body;
-        if(!full_name, !email, !password ){
-            res.status(400).json({
+        if(!full_name || !email || !password ){
+            
+           return res.status(400).json({
                 error: 'Please Provide full_name, email and password to register',
                 full_name,
                 email,
@@ -40,7 +41,7 @@ router.post('/register',   checkIfAdminExist() ,async(req, res, next) => {
     } catch (error) {
        return  res.status(500).json({
             errMsg: 'Server Error',
-            error
+            error: error.message
         })
     }
    
