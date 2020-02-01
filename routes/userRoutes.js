@@ -89,13 +89,15 @@ router.post("/login", async (req, res, next) => {
           full_name,
           email
         });
+         const userTickets = await UserModels.fetchUserById(user.id);
         res.status(200).json({
           message: "Login successful",
           user: {
             userId: user.id,
             full_name,
             email,
-            role: user.role
+            role: user.role,
+            userTickets
           },
           token
         });
