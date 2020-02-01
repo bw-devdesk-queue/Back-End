@@ -118,7 +118,7 @@ https://devdeskbe.herokuapp.com
 
 ```js 
     {
-    "message": "Successfully created",
+    "message": "Fetch Successful",
     "ticket": {
         "ticket_id": 2,
         "title": "Ticket tittle",
