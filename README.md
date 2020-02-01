@@ -96,3 +96,38 @@ https://devdeskbe.herokuapp.com
 ```
 
 ### Tickets 
+| field | data type        | metadata |
+| ----- | ---------------- | -- |
+| title    | string | required|
+| attempted_solution | string | required |
+| completed | boolean | required|
+| user_id | integer | from the api user_id parameter|
+
+
+### Ticket Object
+
+```js 
+    "title" : "Ticket tittle"
+    "description" : "Ticket description"
+    "attempted_solution" : "Ticket solution Attempted  by user"
+    "completed" : "false"
+    "user_id": "1" // from the api params
+```
+
+### Tickets Return Object
+
+```js 
+    {
+    "message": "Successfully created",
+    "ticket": {
+        "ticket_id": 2,
+        "title": "Ticket tittle",
+        "description": "Ticket description",
+        "attempted_solution":"Ticket solution Attempted  by user",
+        "created_at": "2020-01-31T22:55:39.100Z",
+        "completed": false,
+        "user_id": 1
+    }
+}
+
+```
