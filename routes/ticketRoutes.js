@@ -28,7 +28,7 @@ route.get("/tickets", restricted(), async (req, res, next) => {
   }
 });
 
-route.get("/:user_id/tickets", async (req, res, next) => {
+route.get("/:user_id/tickets", restricted(), async (req, res, next) => {
   try {
     const user_id = req.params.user_id;
     if (!user_id) {
@@ -58,7 +58,7 @@ route.get("/:user_id/tickets", async (req, res, next) => {
   }
 });
 
-route.post("/:user_id/tickets", async (req, res, next) => {
+route.post("/:user_id/tickets", restricted(), async (req, res, next) => {
   try {
     const user_id = req.params.user_id;
     const user = await fetchUserById(user_id);

@@ -17,15 +17,23 @@ https://devdeskbe.herokuapp.com
 | Users | -- | -- |
 | POST | /auth/user/register |Adds user creds to DB. Returns id, full_name, email of user, and JWT |
 | POST | /auth/user/login | Allows user access. Returns the user info, success message, and JWT |
-
 | GET | /user/ | Returns all the users in the db|
 
+
+| Method | URL | Description |
 | -- | -- | -- |
-
 | Admin | -- | -- |
-
 | POST | /auth/admin/register |Adds user creds to DB. Returns id, full_name, email of user, and JWT |
 | POST | /auth/admin/login | Allows Admin access. Returns the user info, success message, and JWT |
+| GET | /auth/admin | Returns all the users in the db|
+
+
+| Method | URL | Description |
+| -- | -- | -- |
+| Tickets | -- | -- |
+| GET | /auth/user/:user_id/tickets |Return all the ticket for a user with the user_id provided |
+| POST | /auth/user/:user_id/tickets |Add ticket to the db for the user at user_id|
+| GET | /auth/user/tickets | Return all the tickets in the database |
 
 
 # Schema
@@ -76,11 +84,52 @@ https://devdeskbe.herokuapp.com
 ```
 ### Admin Return Object
 ```js
-    {
-    "message": "Successfully created a new Admin",
-    "user": {
-        "id": 3,
-        "full_name": "admin"
-        }
+     {
+    "message": "login successful",
+    "token": "token",
+    "admin": {
+        "id": 4,
+        "full_name": "Admin Doe",
+        "email": "admmin@doe.com"
     }
+}
 ```
+
+### Tickets 
+| field | data type        | metadata |
+| ----- | ---------------- | -- |
+| title    | string | required|
+| attempted_solution | string | required |
+| completed | boolean | required|
+| user_id | integer | from the api user_id parameter|
+
+
+### Ticket Object
+
+```js 
+    "title" : "Ticket tittle"
+    "description" : "Ticket description"
+    "attempted_solution" : "Ticket solution Attempted  by user"
+    "completed" : "false"
+    "user_id": "1" // from the api params
+```
+
+### Tickets Return Object
+
+```js 
+    {
+
+    "message": "Fetch Successful",
+    "ticket": {
+        "ticket_id": 2,
+        "title": "Ticket tittle",
+        "description": "Ticket description",
+        "attempted_solution":"Ticket solution Attempted  by user",
+        "created_at": "2020-01-31T22:55:39.100Z",
+        "completed": false,
+        "user_id": 1
+    }
+}
+
+```
+
