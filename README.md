@@ -31,9 +31,10 @@ https://devdeskbe.herokuapp.com
 | Method | URL | Description |
 | -- | -- | -- |
 | Tickets | -- | -- |
-| GET | /auth/user/:user_id/tickets |Return all the ticket for a user with the user_id provided |
-| POST | /auth/user/:user_id/tickets |Add ticket to the db for the user at user_id|
-| GET | /auth/user/tickets | Return all the tickets in the database |
+| GET | /api/tickets |Return all the ticket |
+| POST | /api/tickets/:user_id |Create new ticket for a specific user|
+| PUT | /api/ticket/ticket_id| Edits ticket at ticket_id |
+
 
 
 # Schema
