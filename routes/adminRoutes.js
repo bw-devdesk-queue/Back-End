@@ -11,7 +11,6 @@ const JWT_SECRETE =  process.env.JWT_SECRETE;
 router.post('/register',   checkIfAdminExist() ,async(req, res, next) => {
     try {
         const {full_name, email, password, role} = req.body;
-     
             const admin = await adminModels.addAdmin({full_name, email, password, role });
             const token = signToken({
                 admin_id: admin.id,

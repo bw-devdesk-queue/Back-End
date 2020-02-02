@@ -24,7 +24,7 @@ app.use(cors());
 
 app.use('/auth/user', userRoutes);
 app.use('/auth/admin', adminRoutes);
-app.use("/", ticketRoutes);
+app.use("/api/tickets", ticketRoutes);
 
 
 

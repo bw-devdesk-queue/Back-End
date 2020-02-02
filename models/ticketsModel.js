@@ -19,6 +19,7 @@ async function fetchTickets() {
           submitted_by: u.full_name,
           description: t.description,
           attempted_solution: t.attempted_solution,
+          assigned_to: t.assigned_to,
           created_at: t.created_at,
           completed: t.completed
         })
