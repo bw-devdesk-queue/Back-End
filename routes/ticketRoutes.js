@@ -5,7 +5,9 @@ const { fetchUserById } = require("./../models/userModels");
 const {
   fetchTickets,
   fetchTicketsByUser,
-  addTicket
+  addTicket,
+  updateTicket
+  
 } = require("./../models/ticketsModel");
 
 const route = Router({
@@ -13,7 +15,7 @@ const route = Router({
 });
 
 // fetch all tickets
-route.get("/tickets", restricted(), async (req, res, next) => {
+route.get("/", restricted(), async (req, res, next) => {
   try {
     const tickets = await fetchTickets();
     res.status(200).json({
@@ -28,7 +30,7 @@ route.get("/tickets", restricted(), async (req, res, next) => {
   }
 });
 
-route.get("/:user_id/tickets", restricted(), async (req, res, next) => {
+route.get("/:user_id", restricted(), async (req, res, next) => {
   try {
     const user_id = req.params.user_id;
     if (!user_id) {
@@ -58,10 +60,18 @@ route.get("/:user_id/tickets", restricted(), async (req, res, next) => {
   }
 });
 
-route.post("/:user_id/tickets", restricted(), async (req, res, next) => {
+
+// Create Ticket
+route.post("/:user_id", restricted(), async (req, res, next) => {
   try {
     const user_id = req.params.user_id;
     const user = await fetchUserById(user_id);
+
+    if(!user){
+      return res.status(403).json({
+        message: `user with Id of ${user_id} does not exist`
+      });
+    }
     const { title, description, attempted_solution, completed } = req.body;
 
     if (!title || !description) {
@@ -82,7 +92,7 @@ route.post("/:user_id/tickets", restricted(), async (req, res, next) => {
       });
 
       res.status(201).json({
-        message: "Successfully created",
+        message: "Successfully created A ticket",
         ticket
       });
     }
@@ -91,4 +101,32 @@ route.post("/:user_id/tickets", restricted(), async (req, res, next) => {
   }
 });
 
+
+
+route.put('/:ticket_id', restricted(), async (req, res, next) => {
+  let {title,description,created_date,created_by,assigned_to, attempted_solution, completed } = req.body;
+  const ticket_id = req.params.ticket_id;
+  if(!ticket_id){
+    return res.status(400).json({
+      message: `ticket_id is undefined`
+    })
+  }
+  else if (!title || !description || !assigned_to ||  !attempted_solution ){
+    req.status(404).json({
+      message: 'Please make sure you are providing all the necessary info for updating a tickets'
+    })
+  }else {
+    const ticket = await updateTicket(ticket_id, {
+      title,
+      description,
+      created_date,
+      created_by,
+      assigned_to, 
+      attempted_solution, 
+      completed })
+      res.status(200).json({
+        ticket
+      })
+  }
+ })
 module.exports = route;

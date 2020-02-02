@@ -19,6 +19,7 @@ async function fetchTickets() {
           submitted_by: u.full_name,
           description: t.description,
           attempted_solution: t.attempted_solution,
+          assigned_to: t.assigned_to,
           created_at: t.created_at,
           completed: t.completed
         })
@@ -48,8 +49,14 @@ async function addTicket(ticket) {
     .where("title", ticket.title)
     .first();
 }
+
+async function updateTicket(ticket_id, ticket){
+
+  return db('tickets').update(ticket).where('ticket_id', ticket_id).returning('*')
+}
 module.exports = {
   fetchTickets,
   fetchTicketsByUser,
-  addTicket
+  addTicket,
+  updateTicket
 };

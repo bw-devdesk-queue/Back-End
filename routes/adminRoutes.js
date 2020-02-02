@@ -11,16 +11,6 @@ const JWT_SECRETE =  process.env.JWT_SECRETE;
 router.post('/register',   checkIfAdminExist() ,async(req, res, next) => {
     try {
         const {full_name, email, password, role} = req.body;
-        if(!full_name || !email || !password ){
-            
-           return res.status(400).json({
-                error: 'Please Provide full_name, email and password to register',
-                full_name,
-                email,
-                password,
-                role
-            })
-        }else{
             const admin = await adminModels.addAdmin({full_name, email, password, role });
             const token = signToken({
                 admin_id: admin.id,
@@ -34,10 +24,11 @@ router.post('/register',   checkIfAdminExist() ,async(req, res, next) => {
                     id: admin.id,
                     full_name: admin.full_name,
                     email,
-                    role
+                    role,
+                    tickets: []
                   }
             })
-        }
+        
     } catch (error) {
        return  res.status(500).json({
             errMsg: 'Server Error',

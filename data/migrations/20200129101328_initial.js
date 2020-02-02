@@ -22,6 +22,7 @@ exports.up = async function(knex) {
       tbl.string('attempted_solution') 
       tbl.timestamp('created_at', {precision: 6}).defaultTo(knex.fn.now());
       tbl.boolean('completed')
+      tbl.integer('assigned_to')
       tbl
       .integer("user_id")
       .unsigned()
