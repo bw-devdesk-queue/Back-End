@@ -11,34 +11,11 @@ const UserModels = require("./../models/userModels");
 const middleware = require("./../middleware/verifyBody");
 const restricted = require("./../middleware/restricted");
 
-router.post(
-  "/register",
-  middleware.checkIfUserExist(),
-  async (req, res, next) => {
+router.post( "/register", middleware.checkIfUserExist(), async (req, res, next) => {
     try {
       const { full_name, email, password, role } = req.body;
-      if ((!full_name, !email, !password, !role)) {
-        return res.status(400).json({
-          error: "Please Provide full_name, email and password to register",
-          full_name,
-          email,
-          role,
-          password
-        });
-      } else {
-        const user = await UserModels.addUser({
-          full_name,
-          email,
-          password,
-          role
-        });
-
-        const token = signToken({
-          userId: user.id,
-          full_name,
-
-          email
-        });
+        const user = await UserModels.addUser({ full_name, email, password, role });
+        const token = signToken({  userId: user.id, full_name, email });
         return res.status(201).json({
           data:{
             message: "Successfully created a new user",
@@ -51,11 +28,12 @@ router.post(
             token
           }
         });
-      }
+      
     } catch (error) {
+     
       return res.status(400).json({
         errMsg: "Server Error",
-        error
+        error: error.message
       });
     }
   }
