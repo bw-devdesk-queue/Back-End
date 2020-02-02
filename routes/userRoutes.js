@@ -8,6 +8,7 @@ const secret = process.env.JWT_SECRETE;
 const router = Router();
 
 const UserModels = require("./../models/userModels");
+const TicketModels = require('./../models/ticketsModel')
 const middleware = require("./../middleware/verifyBody");
 const restricted = require("./../middleware/restricted");
 
@@ -67,7 +68,7 @@ router.post("/login", async (req, res, next) => {
           full_name,
           email
         });
-         const userTickets = await UserModels.fetchUserById(user.id);
+         const userTickets = await TicketModels.fetchTicketsByUser(user.id);
         res.status(200).json({
           message: "Login successful",
           user: {
