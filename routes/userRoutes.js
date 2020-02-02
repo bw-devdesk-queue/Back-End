@@ -14,6 +14,7 @@ const restricted = require("./../middleware/restricted");
 router.post( "/register", middleware.checkIfUserExist(), async (req, res, next) => {
     try {
       const { full_name, email, password, role } = req.body;
+
         const user = await UserModels.addUser({ full_name, email, password, role });
         const token = signToken({  userId: user.id, full_name, email });
         return res.status(201).json({
@@ -30,7 +31,6 @@ router.post( "/register", middleware.checkIfUserExist(), async (req, res, next) 
         });
       
     } catch (error) {
-     
       return res.status(400).json({
         errMsg: "Server Error",
         error: error.message
@@ -38,7 +38,7 @@ router.post( "/register", middleware.checkIfUserExist(), async (req, res, next) 
     }
   }
 );
-
+//Login Post 
 router.post("/login", async (req, res, next) => {
   if (Object.keys(req.body).length <= 0) {
     return res.status(404).json({

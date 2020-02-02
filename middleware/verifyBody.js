@@ -10,7 +10,6 @@ const checkIfUserExist = () => {
     }
     try {
       const { full_name, email, password, role } = req.body;
-
       if ((!full_name || !email || !password || !role)) {
         return res.status(400).json({
           error: "Please Provide full_name, email and password to register",
@@ -28,15 +27,12 @@ const checkIfUserExist = () => {
           message: `user with email of ${req.body.email} exist already in the db, try a new email`
         });
       }
-    
     } catch (error) {
       return res.status(400).json({
         errMsg: "Server Error",
         error: error.message
       });
     }
-
-  
   };
 };
 
@@ -48,7 +44,18 @@ const checkIfAdminExist = () => {
       });
     }
     try {
-      const { email } = req.body;
+
+      const {full_name, email, password, role} = req.body;
+      if(!full_name || !email || !password || role ){ 
+         return res.status(400).json({
+              error: 'Please Provide full_name, email and password to register',
+              full_name,
+              email,
+              password,
+              role
+          })
+      }
+
       const admin = await adminModels.fetchAdminBy(email);
       if (!admin) {
         next();
@@ -65,7 +72,7 @@ const checkIfAdminExist = () => {
     } catch (error) {
       return res.status(500).json({
         message: `Server error`,
-        error
+        error: error.message
       });
     }
   };
