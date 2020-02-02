@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 5000;
 const userRoutes = require('./routes/userRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 
+const ticketRoutes = require("./routes/ticketRoutes");
 
 //helmet secures or app by setting various http headers
 app.use(helmet());
@@ -23,6 +24,7 @@ app.use(cors());
 
 app.use('/auth/user', userRoutes);
 app.use('/auth/admin', adminRoutes);
+app.use("/", ticketRoutes);
 
 
 

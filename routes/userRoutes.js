@@ -7,10 +7,6 @@ const secret = process.env.JWT_SECRETE;
 
 const router = Router();
 
-const ticketRoutes = require("./ticketRoutes");
-
-router.use("/", ticketRoutes);
-
 const UserModels = require("./../models/userModels");
 const middleware = require("./../middleware/verifyBody");
 const restricted = require("./../middleware/restricted");
@@ -44,10 +40,14 @@ router.post(
           email
         });
         return res.status(201).json({
-          message: "Successfully created a new user",
-          user: {
-            id: user.id,
-            full_name: user.full_name,
+          data:{
+            message: "Successfully created a new user",
+            user: {
+              id: user.id,
+              full_name: user.full_name,
+              role,
+              tickets: []
+            },
             token
           }
         });
