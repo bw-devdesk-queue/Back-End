@@ -49,8 +49,14 @@ async function addTicket(ticket) {
     .where("title", ticket.title)
     .first();
 }
+
+async function updateTicket(ticket_id, ticket){
+
+  return db('tickets').update(ticket).where('ticket_id', ticket_id).returning('*')
+}
 module.exports = {
   fetchTickets,
   fetchTicketsByUser,
-  addTicket
+  addTicket,
+  updateTicket
 };

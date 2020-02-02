@@ -5,7 +5,9 @@ const { fetchUserById } = require("./../models/userModels");
 const {
   fetchTickets,
   fetchTicketsByUser,
-  addTicket
+  addTicket,
+  updateTicket
+  
 } = require("./../models/ticketsModel");
 
 const route = Router({
@@ -99,4 +101,32 @@ route.post("/:user_id", restricted(), async (req, res, next) => {
   }
 });
 
+
+
+route.put('/:ticket_id', restricted(), async (req, res, next) => {
+  let {title,description,created_date,created_by,assigned_to, attempted_solution, completed } = req.body;
+  const ticket_id = req.params.ticket_id;
+  if(!ticket_id){
+    return res.status(400).json({
+      message: `ticket_id is undefined`
+    })
+  }
+  else if (!title || !description || !assigned_to ||  !attempted_solution ){
+    req.status(404).json({
+      message: 'Please make sure you are providing all the necessary info for updating a tickets'
+    })
+  }else {
+    const ticket = await updateTicket(ticket_id, {
+      title,
+      description,
+      created_date,
+      created_by,
+      assigned_to, 
+      attempted_solution, 
+      completed })
+      res.status(200).json({
+        ticket
+      })
+  }
+ })
 module.exports = route;
