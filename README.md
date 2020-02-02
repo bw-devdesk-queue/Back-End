@@ -17,7 +17,7 @@ https://devdeskbe.herokuapp.com
 | Users | -- | -- |
 | POST | /auth/user/register |Adds user creds to DB. Returns id, full_name, email of user, and JWT |
 | POST | /auth/user/login | Allows user access. Returns the user info, success message, and JWT |
-| GET | /user/ | Returns all the users in the db|
+| GET | /auth/user/ | Returns all the users in the db|
 
 
 | Method | URL | Description |
@@ -25,13 +25,14 @@ https://devdeskbe.herokuapp.com
 | Admin | -- | -- |
 | POST | /auth/admin/register |Adds user creds to DB. Returns id, full_name, email of user, and JWT |
 | POST | /auth/admin/login | Allows Admin access. Returns the user info, success message, and JWT |
-| GET | /auth/admin | Returns all the users in the db|
+| GET | /auth/admin | Returns all the admins in the db|
 
 
 | Method | URL | Description |
 | -- | -- | -- |
 | Tickets | -- | -- |
 | GET | /api/tickets |Return all the ticket |
+| GET | /api/tickets/:user_id |Return all the ticket for a specific id |
 | POST | /api/tickets/:user_id |Create new ticket for a specific user|
 | PUT | /api/ticket/ticket_id| Edits ticket at ticket_id |
 
@@ -47,23 +48,31 @@ https://devdeskbe.herokuapp.com
 | full_name | string        | required|
 | password | string | required, encrypted by the server |
 | email | string | required unique|
+| role | string | required |
 ### User Object
 ```js
     {
         full_name: 'John Doe',
         email: 'john@doe.com'
         password: 'password1'
+        role: "user"
     }
 ```
 ### User Return Object
 ```js
     {
-    "message": "Successfully created a new user",
-    "user": {
-        "id": 3,
-        "full_name": "John"
-        }
+    "data": {
+        "message": "Successfully created a new user",
+        "user": {
+            "id": 1,
+            "full_name": 'John Doe',
+            "email": 'john@doe.com'
+            "role": "user"
+            "tickets": []
+        },
+        "token": "token"
     }
+}
 ```
 
 ### Admin
@@ -86,14 +95,16 @@ https://devdeskbe.herokuapp.com
 ### Admin Return Object
 ```js
      {
-    "message": "login successful",
-    "token": "token",
-    "admin": {
-        "id": 4,
-        "full_name": "Admin Doe",
-        "email": "admmin@doe.com"
-    }
-}
+    "data": {
+        "message": "Successfully created a new user",
+        "user": {
+            "id": 1,
+            "full_name": 'John Doe',
+            "email": 'john@doe.com'
+            "role": "user"
+            "tickets": []
+        },
+        "token" : "token"
 ```
 
 ### Tickets 
