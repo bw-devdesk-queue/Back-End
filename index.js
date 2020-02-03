@@ -43,3 +43,6 @@ app.get((err,req, res, next)=>{
 if(!module.parent){
     app.listen(PORT, console.log(`app listening to http://localhost:${PORT}`));
 }
+
+
+module.exports = app;
