@@ -7,12 +7,12 @@ test('Should Test the app starts', async () => {
 })
 test('Should Test the app starts', async () => {
     const response = await superTest(indexjs).get('/');
-    console.log(response.text)
+
     expect(response.status).toBe(200)
 });
 
 test('Should Test the app starts', async () => {
     const response = await superTest(indexjs).get('/')
-    console.log(response)
+    console.log(response.header)
     expect(response.text).toBe('Welcome to DevDesk / endpoint')
 })
