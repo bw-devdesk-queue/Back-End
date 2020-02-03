@@ -38,4 +38,8 @@ app.get((err,req, res, next)=>{
             err
     })
 })
-app.listen(PORT, console.log(`app listening to http://localhost:${PORT}`))
+
+
+if(!module.parent){
+    app.listen(PORT, console.log(`app listening to http://localhost:${PORT}`));
+}

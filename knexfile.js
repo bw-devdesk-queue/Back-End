@@ -1,4 +1,4 @@
-const { DATABASE_URL } =  require('./configVars')
+const { DATABASE_URL, DATABASE_URL_TESTING } =  require('./configVars')
 module.exports = {
   development: {
     client: 'pg',
@@ -11,9 +11,9 @@ module.exports = {
     },
   },
 
-  staging: {
+  test: {
     client: 'pg',
-    connection: DATABASE_URL,
+    connection: DATABASE_URL_TESTING,
     pool: {
       min: 2,
       max: 10
