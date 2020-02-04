@@ -132,6 +132,11 @@ route.put('/:ticket_id', restricted(), async (req, res, next) => {
 
  //Delete endpoint  
  route.delete('/:ticket_id', (req, res, next) => {
-   
+    const { ticket_id } = req.params;
+     if(!ticket_id){
+       res.status(404).json({
+         error: 'Error, ticket_id is undefined'
+       });
+     }
  })
 module.exports = route;
