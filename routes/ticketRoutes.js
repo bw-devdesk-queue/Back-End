@@ -128,5 +128,10 @@ route.put('/:ticket_id', restricted(), async (req, res, next) => {
         ticket
       })
   }
+ });
+
+ //Delete endpoint  
+ route.delete('/:ticket_id', (req, res, next) => {
+   
  })
 module.exports = route;
