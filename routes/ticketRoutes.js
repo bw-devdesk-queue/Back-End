@@ -6,7 +6,9 @@ const {
   fetchTickets,
   fetchTicketsByUser,
   addTicket,
-  updateTicket
+  updateTicket,
+  deleteTicket,
+  fetchTicketById
   
 } = require("./../models/ticketsModel");
 
@@ -134,9 +136,15 @@ route.put('/:ticket_id', restricted(), async (req, res, next) => {
  route.delete('/:ticket_id', (req, res, next) => {
     const { ticket_id } = req.params;
      if(!ticket_id){
-       res.status(404).json({
+       return res.status(404).json({
          error: 'Error, ticket_id is undefined'
        });
+     }
+     const ticket = fetchTicketById(ticket_id);
+     if(!ticket){
+       res.status(400).json({
+         message: `Counld't find ticket at ${ticket_id} in the db`
+       })
      }
  })
 module.exports = route;
