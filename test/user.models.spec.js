@@ -2,8 +2,8 @@ const usermodels = require('./../models/userModels')
 const db = require('./../data/dbConfig')
 
 
-beforeEach(async ()=>{
-    await db.seed.run()
+beforeEach( async ()=>{
+   await db.seed.run()
 })
 
 describe('Test User models', () => {
@@ -14,8 +14,3 @@ describe('Test User models', () => {
         expect(users).not.toBeFalsy();
     })
 })
-
-describe('Test Add user model', () => {
-    
-})
-
