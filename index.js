@@ -15,8 +15,7 @@ const ticketRoutes = require("./routes/ticketRoutes");
 //helmet secures or app by setting various http headers
 app.use(helmet());
 // body-parser parses request bodies to json
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false, limit: '10mb'}));
 //enables clients to make request to our endpoints
 app.use(cors());
 
