@@ -29,5 +29,19 @@ describe('Adding new Users to the db',  () => {
         expect(reqBody.email).toEqual(user.email)
         expect(reqBody.role).toBe('user')
     })
+});
+
+describe('Test Models', () => {
+    test('Should test user model ', async () => {
+        const email = "jestTest@email.com";
+        const userByEmail = await usermodels.fetchUserBy(email);
+        
+        expect(userByEmail).toBeTruthy()
+        expect(userByEmail.email).toEqual(email)
+        expect(userByEmail.id).toEqual(2)
+        expect(userByEmail.password).toBeUndefined()
+
+    })
     
 })
+
