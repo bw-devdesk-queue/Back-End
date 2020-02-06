@@ -20,8 +20,9 @@ app.use(xss())
 //helmet secures or app by setting various http headers
 app.use(helmet());
 
+app.use(express.json({limit: '10mb'}))
 // body-parser parses request bodies to json
-app.use(bodyParser.urlencoded({ extended: false, limit: '10mb'}));
+app.use(bodyParser.urlencoded({ extended: false}));
 //enables clients to make request to our endpoints
 app.use(cors());
 
