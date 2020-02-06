@@ -13,7 +13,7 @@ async function addUser(user){
 }
 
 function fetchUserBy(email){
-    return db('user').where(`email`, email).first();
+    return db('user').where(`email`, email).first().select('id', 'full_name', 'email', 'role') ;
 }
 function fetchUserById(id){
     return db('user').where(`id`, id).first();
