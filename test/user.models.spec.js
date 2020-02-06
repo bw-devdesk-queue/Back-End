@@ -2,7 +2,7 @@ const usermodels = require('./../models/userModels')
 const db = require('./../data/dbConfig')
 
 
-beforeEach( async ()=>{
+beforeAll( async ()=>{
    await db.seed.run()
 })
 
