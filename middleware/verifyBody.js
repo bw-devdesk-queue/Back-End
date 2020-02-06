@@ -38,6 +38,7 @@ const checkIfUserExist = () => {
 
 const checkIfAdminExist = () => {
   return async (req, res, next) => {
+    console.log(req.body)
     if (Object.keys(req.body).length <= 0) {
       return res.status(404).json({
         message: "Please fill out the form to login"
