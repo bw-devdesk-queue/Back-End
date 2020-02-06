@@ -54,9 +54,19 @@ async function updateTicket(ticket_id, ticket){
 
   return db('tickets').update(ticket).where('ticket_id', ticket_id).returning('*')
 }
+
+
+function deleteTicket(id){
+  return db('tickets').where('ticket_id', id).del();
+}
+function fetchTicketById(ticket_id){
+  return db('tickets').where('ticket_id', ticket_id)
+}
 module.exports = {
   fetchTickets,
   fetchTicketsByUser,
   addTicket,
-  updateTicket
+  updateTicket,
+  deleteTicket,
+  fetchTicketById
 };

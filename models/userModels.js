@@ -19,6 +19,7 @@ function fetchUserById(id){
     return db('user').where(`id`, id).first();
 }
 
+
 module.exports = {
     fetchUsers,
     addUser,
