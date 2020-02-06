@@ -10,7 +10,9 @@ const checkIfUserExist = () => {
     }
     try {
       const { full_name, email, password, role } = req.body;
+
       if ((!full_name || !email || !password || !role)) {
+
         return res.status(400).json({
           error: "Please Provide full_name, email and password to register",
           full_name: full_name,
@@ -37,7 +39,10 @@ const checkIfUserExist = () => {
 };
 
 const checkIfAdminExist = () => {
+
   return async (req, res, next) => {
+    console.log(req.body)
+
     if (Object.keys(req.body).length <= 0) {
       return res.status(404).json({
         message: "Please fill out the form to login"
@@ -46,7 +51,7 @@ const checkIfAdminExist = () => {
     try {
 
       const {full_name, email, password, role} = req.body;
-      if(!full_name || !email || !password || role ){ 
+      if(!full_name || !email || !password || !role ){ 
          return res.status(400).json({
               error: 'Please Provide full_name, email and password to register',
               full_name,

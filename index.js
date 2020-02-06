@@ -4,6 +4,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
 
+
 //Xss (cross site scripting) prevent against hackers sending in malicious links/data through forms tp the backend to hack the system and collect data
 const xss = require('xss-clean');
 const app = express();
@@ -16,12 +17,13 @@ const adminRoutes = require('./routes/adminRoutes');
 const ticketRoutes = require("./routes/ticketRoutes");
 
 
-app.use(xss())
+// app.use(xss())
 //helmet secures or app by setting various http headers
 app.use(helmet());
 
 // body-parser parses request bodies to json
-app.use(bodyParser.urlencoded({ extended: false, limit: '10mb'}));
+// app.use(bodyParser.urlencoded({ extended: false, limit: '10mb'}));
+app.use(express.json())
 //enables clients to make request to our endpoints
 app.use(cors());
 
