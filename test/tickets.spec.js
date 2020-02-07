@@ -10,13 +10,13 @@ beforeEach(async ()=> {
 describe('Test add model', () => {
     test('Add new ticket to the db', async ()=>{
      
-        const tickets = await ticketModel.addTicket({
+        await ticketModel.addTicket({
             title: 'Test ticket',
             description: 'Some test tickets',
             attempted_solution: 'Just tried and tried and tried and tested',
             completed: false,
             user_id: 1,
-        })
+        });
         const allTickets = await ticketModel.fetchTickets();
 
         expect(allTickets).toHaveLength(2)
@@ -29,10 +29,10 @@ describe('Test add model', () => {
 
 describe('Test Delete model', ()=> {
     it('Delete tickets from the db', async ()=>{
-        const allTickets = await ticketModel.fetchTickets();
-        const id = await ticketModel.deleteTicket(2);
-        console.log(allTickets)
+        const allTickets = await ticketModel.fetchTickets();    
+        await ticketModel.deleteTicket(2);
         expect(allTickets).toHaveLength(1)
         expect(allTickets[2]).toBeUndefined()
     })
 })
+

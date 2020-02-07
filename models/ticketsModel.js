@@ -43,16 +43,20 @@ async function fetchTicketsByUser(id) {
   };
 }
 
-async function addTicket(ticket) {
+async function addTicket(ticket) {                            
   const t = await db("tickets").insert(ticket);
-  return db("tickets")
+  return db("tickets") 
     .where("title", ticket.title)
     .first();
 }
 
 async function updateTicket(ticket_id, ticket){
+  console.log(ticket)
+  const t = await db('tickets').where('ticket_id', ticket_id).update(ticket);
+  console.log(t)
+  console.log(ticket_id)
 
-  return db('tickets').update(ticket).where('ticket_id', ticket_id).returning('*')
+  return fetchTicketById(ticket_id)
 }
 
 

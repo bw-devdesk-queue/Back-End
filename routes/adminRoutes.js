@@ -65,12 +65,13 @@ router.post('/login',  async (req, res, next) => {
                 })
                 res.status(200).json({
                     message: 'login successful',
-                    token,
                     admin: {
                         id: admin.id,
                         full_name,
-                        email
-                    }
+                        email,
+                        role: admin.roles
+                    },
+                    token,
                 })
             }else{
                 res.status(404).json({
