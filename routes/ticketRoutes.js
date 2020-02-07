@@ -124,7 +124,7 @@ route.put("/:ticket_id", restricted(), async (req, res, next) => {
       const ticket = await updateTicket(ticket_id, {
         title,
         description,
-        assigned_to: assigned_to || null,
+        assigned_to,
         attempted_solution,
         completed,
       });
