@@ -41,14 +41,16 @@ router.post( "/register", middleware.checkIfUserExist(), async (req, res, next) 
 );
 //Login Post 
 router.post("/login", async (req, res, next) => {
+  
+
   if (Object.keys(req.body).length <= 0) {
     return res.status(404).json({
       message: "Please fill out the form to login"
     });
   }
   try {
+   
     const { full_name, email, password } = req.body;
-
     if ((!email, !password)) {
       res.status(400).json({
         error: "Please Provide email and password to register",
@@ -58,6 +60,7 @@ router.post("/login", async (req, res, next) => {
     } else {
       const user = await UserModels.fetchUserBy(email);
       const validatePassword = bcrypt.compareSync(password, user.password);
+
       if (!validatePassword || !user) {
         res.status(404).json({
           message: "Invalid Credentials"
