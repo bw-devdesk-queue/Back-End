@@ -9,7 +9,6 @@ const {
   updateTicket,
   deleteTicket,
   fetchTicketById
-  
 } = require("./../models/ticketsModel");
 
 const route = Router({
@@ -21,7 +20,7 @@ route.get("/", restricted(), async (req, res, next) => {
   try {
     const tickets = await fetchTickets();
     res.status(200).json({
-      message: 'Fetch Successful',
+      message: "Fetch Successful",
       tickets
     });
   } catch (error) {
@@ -62,14 +61,13 @@ route.get("/:user_id", restricted(), async (req, res, next) => {
   }
 });
 
-
 // Create Ticket
 route.post("/:user_id", restricted(), async (req, res, next) => {
   try {
     const user_id = req.params.user_id;
     const user = await fetchUserById(user_id);
 
-    if(!user){
+    if (!user) {
       return res.status(403).json({
         message: `user with Id of ${user_id} does not exist`
       });
@@ -103,53 +101,61 @@ route.post("/:user_id", restricted(), async (req, res, next) => {
   }
 });
 
-
-
-route.put('/:ticket_id', restricted(), async (req, res, next) => {
-  let {title,description,created_date,created_by,assigned_to, attempted_solution, completed } = req.body;
+route.put("/:ticket_id", restricted(), async (req, res, next) => {
+  let {
+    title,
+    description,
+    attempted_solution,
+    assigned_to,
+    completed,
+  } = req.body;
   const ticket_id = req.params.ticket_id;
-  if(!ticket_id){
-    return res.status(400).json({
-      message: `ticket_id is undefined`
-    })
-  }
-  else if (!title || !description || !assigned_to ||  !attempted_solution ){
-    req.status(404).json({
-      message: 'Please make sure you are providing all the necessary info for updating a tickets'
-    })
-  }else {
-    const ticket = await updateTicket(ticket_id, {
-      title,
-      description,
-      created_date,
-      created_by,
-      assigned_to, 
-      attempted_solution, 
-      completed })
+  try {
+    if (!ticket_id) {
+      return res.status(400).json({
+        message: `ticket_id is undefined`
+      });
+    } else if (!title || !description || !attempted_solution) {
+      res.status(404).json({
+        message:
+          "Please make sure you are providing all the necessary info for updating a tickets"
+      });
+    } else {
+      const ticket = await updateTicket(ticket_id, {
+        title,
+        description,
+        assigned_to: assigned_to || null,
+        attempted_solution,
+        completed,
+      });
       res.status(200).json({
         ticket
-      })
+      });
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.end();
   }
- });
+});
 
- //Delete endpoint  
- route.delete('/:ticket_id', async (req, res, next) => {
-    const { ticket_id } = req.params;
-     if(!ticket_id){
-       return res.status(404).json({
-         error: 'Error, ticket_id is undefined'
-       });
-     }
-     const ticket = await fetchTicketById(ticket_id);
-     if(!ticket){
-       res.status(400).json({
-         message: `Counld't find ticket at ${ticket_id} in the db`
-       })
-     }else{
-      const del =await deleteTicket(ticket_id);
-      res.status(200).json({
-        message: `Delete Successful`
-      })
-   }
- })
+//Delete endpoint
+route.delete("/:ticket_id", async (req, res, next) => {
+  const { ticket_id } = req.params;
+  if (!ticket_id) {
+    return res.status(404).json({
+      error: "Error, ticket_id is undefined"
+    });
+  }
+  const ticket = await fetchTicketById(ticket_id);
+  if (!ticket) {
+    res.status(400).json({
+      message: `Counld't find ticket at ${ticket_id} in the db`
+    });
+  } else {
+    const del = await deleteTicket(ticket_id);
+    res.status(200).json({
+      message: `Delete Successful`
+    });
+  }
+});
 module.exports = route;

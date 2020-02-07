@@ -21,6 +21,13 @@ describe('Test Register route',  () => {
         expect(thisUser.password).not.toBe('user');
 
     });
+
+    test('should Test when any of the properties isnt defined', async () => {
+        const res = await app(index).post('/auth/user/register').send({});
+        console.log(res.text)
+        expect(res.status).toEqual(404)
+    })
+    
     
 })
 
